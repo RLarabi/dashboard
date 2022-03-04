@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Customers() {
   return (
-    <div>Customers</div>
+    <div className="fs-1">Customers</div>
   )
 }

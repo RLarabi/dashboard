@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './SideBar.css'
 import {
-    Link,
+    NavLink,
     useNavigate
 } from "react-router-dom";
   import {VscDashboard} from 'react-icons/vsc';
@@ -13,23 +13,23 @@ import {
   
 
 export default function SideBar() {
-    const navigate =  useNavigate();
     const [sidebar, setsidebar] = useState(true);
-    const [showSide,setshowSide] = useState("8vw");
-    const [activeClass , setActiveClass ] = useState("text-white fs-5");
+    const [showSide,setshowSide] = useState("8vw"); 
+    const [widthClass , setWidthClass ] = useState(sidebar);
     const close = "bi bi-list-nested text-light fs-1";
     const open = "bi bi-x-lg text-light fs-1";
     const [changeClass, setCangeClass] = useState(close);
+
     const ShowSide  = () => {
-        if(sidebar) setshowSide("20vw"); else setshowSide("8vw");
-        if(sidebar) setCangeClass(open); else setCangeClass(close);
-        // if(sidebar) setDisplayItem("text-white fs-5"); else setDisplayItem("text-white fs-5");
+        if(sidebar) setshowSide("20vw"); else setshowSide("8vw"); 
+        if(sidebar) setCangeClass(open); else setCangeClass(close); 
+        if(sidebar) setWidthClass(showSide); else setWidthClass(!showSide); 
         setsidebar(!sidebar);
     };
     const sidebarNav = {
         background: "#15171c",
-        width:`${showSide}`,
-        height: "100vh",
+        minWidth:`${showSide}`,
+        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -39,34 +39,49 @@ export default function SideBar() {
         zIndex: "10",
         alignItems: "center"
     };
-    const menuItem = {
-        width:`${showSide}`,
-        backgroundColor: "red"
-    }
+    
     const dataMenu = [
-        {icon:<VscDashboard  className="fs-3 text-white"/>,to: "",text:"Dashboard"},
-        {icon:<MdOutlineCategory className="fs-3 text-white"/>,to: "category",text:"Category"},
-        {icon:<GoListUnordered className="fs-3 text-white"/>,to: "orders",text:"Orders"},
-        {icon:<BsPeople className="fs-3 text-white"/>,to: "customers",text:"Customers"},
-        {icon:<BiLogOut className="fs-3 text-white"/>,to: "logout",text:"Logout"}
+        {icon:<VscDashboard      className="fs-3 text-white"/>,to: "",         text:"Dashboard"},
+        {icon:<MdOutlineCategory className="fs-3 text-white"/>,to: "category", text:"Category"},
+        {icon:<GoListUnordered   className="fs-3 text-white"/>,to: "orders",   text:"Orders"},
+        {icon:<BsPeople          className="fs-3 text-white"/>,to: "customers",text:"Customers"},
+        {icon:<BiLogOut          className="fs-3 text-white"/>,to: "logout",   text:"Logout"}
     ]
+    const linkStyle = ({isActive}) => {
+        // isActive ? setWidthClass("8vw") : setWidthClass("20vw") ;
+        return {
+            color: 'white',
+            borderRight: isActive ? "4px solid blue" : "",
+            textDecoration: "none",
+            transition: "150ms",
+        }
+    }
     return ( 
       <> 
         <div className="" style={sidebarNav}>
            <div className="menu-icon">
                 <i className={changeClass} onClick={ShowSide}></i>
            </div>
+
             <div>
-                <ul className="list-unstyled ">
+                <ul className="list-unstyled" >
                     {dataMenu.map((e,index) => (
-                        <li key={index} className="mt-5 test">
-                            <Link to={e.to} key={index}>
+                        <li 
+                            key={index} 
+                            className="mt-5"
+                            style={{width: `${widthClass}`}}
+                        >
+                            <NavLink 
+                                to={e.to} 
+                                className={({isActive}) => {
+                                    const test = isActive ? "pt-2 pb-2" : "pt-2 pb-2";
+                                    return test
+                                }} 
+                                style={linkStyle}
+                            >
                                 {e.icon} 
-                            {!sidebar && <span className="fs-5 text-white text" key={index} onClick={() =>{
-                                if(e.text == "Logout") navigate('/login');
-                            }}>{e.text}</span> 
-                            }
-                            </Link>
+                                {!sidebar && <span className="fs-5">{e.text}</span>}
+                            </NavLink>
                         </li>   
                     ))}
                 </ul>   
@@ -76,112 +91,11 @@ export default function SideBar() {
     )
 }
 
-function getShowside ({sidebar}){
-return sidebar;
-}
-
-export {getShowside};
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-{/* <li className="mt-5" style={menuItem}>
-                        <Link to="/" className="" >
-                            <VscDashboard className='fs-1 text-white'/>
-                            {!sidebar && <span className="fs-5 text-white">Dashboard</span> }
-                        </Link>
-                    </li>
-
-                    <li className=" mt-5">
-                        <Link to="/category" className="" >
-                            <MdOutlineCategory className='fs-1 text-white'/>
-                            {!sidebar && <span className="fs-5 text-white">Category</span> }                        </Link>
-                    </li>  
-
-                    <li className=" mt-5">
-                        <Link to="/orders" className="" >
-                            <GoListUnordered className='fs-1 text-white'/>
-                            {!sidebar && <span className="fs-5 text-white">Orders</span> }                        </Link>
-                    </li> 
-
-                    <li className=" mt-5">
-                        <Link to="/customers" className="" >
-                            <BsPeople className='fs-1 text-white'/>
-                            {!sidebar && <span className="fs-5 text-white">Customers</span> }                        </Link>
-                    </li> 
-
-                    <li className=" mt-5">
-                        <Link to="/logout" className="" >
-                            <BiLogOut className='fs-1 text-white'/>
-                            {!sidebar && <span className="fs-5 text-white ml-4">Logout</span> }                        </Link>
-                    </li> */}
-
-
-
-
-
-
-
-
-
-{/* <ul className="">
-<li className="">
-    <Link to="/dashboard" className="" >
-    <VscDashboard/>
-        Dashboard
-    </Link>
-</li>
-
-<li className="">
-    <Link to="/categories" className="" > 
-        <MdOutlineCategory/> 
-            Category
-    </Link>
-
-</li>
-
-<li className="">
-    <Link to="/orders" className="">
-    <GoListUnordered/>
-        Orders
-    </Link>
-</li>
-
-<li className="">
-    <Link to="/products" className="">
-    <MdProductionQuantityLimits/>
-        Products
-    </Link>
-</li>
-
-<li className="">
-    <Link to="/customers" className="">
-    <BsPeople/>
-        Customers
-    </Link>
-</li>
-
-<li className="" onClick={
-    () => {
-        navigate('/login');
-    }
-}>
-    <Link to="/login" className="" >
-    <BiLogOut/>
-        Logout
-    </Link>
-</li>
-</ul> */}
 
 
 
@@ -218,7 +132,13 @@ nav-link text-white p-3
 nav-link text-white p-3
 nav-link text-white p-3
 nav-link text-white p-3
-    
+
+
+className="mt-5"
+
+    onClick={({isActive})=>{
+                            isActive ? setIsActiveClass("mt-5") :setIsActiveClass("mt-5 li-class") ;
+                        }}
     
     <div className="side-bar-nav d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
 <a href="" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
