@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './SideBar.css'
 import {
     NavLink,
-    useNavigate
+    useNavigate 
 } from "react-router-dom";
   import {VscDashboard} from 'react-icons/vsc';
   import {MdOutlineCategory} from 'react-icons/md';
@@ -14,73 +14,60 @@ import {
 
 export default function SideBar() {
     const [sidebar, setsidebar] = useState(true);
-    const [showSide,setshowSide] = useState("8vw"); 
-    const [widthClass , setWidthClass ] = useState(sidebar);
-    const close = "bi bi-list-nested text-light fs-1";
-    const open = "bi bi-x-lg text-light fs-1";
+    const close = "bi bi-list-nested fs-1 ml-2 p-2";
+    const open = "bi bi-x-lg fs-1 ml-2 p-2";
     const [changeClass, setCangeClass] = useState(close);
 
     const ShowSide  = () => {
-        if(sidebar) setshowSide("20vw"); else setshowSide("8vw"); 
         if(sidebar) setCangeClass(open); else setCangeClass(close); 
-        if(sidebar) setWidthClass(showSide); else setWidthClass(!showSide); 
         setsidebar(!sidebar);
     };
     const sidebarNav = {
-        background: "#15171c",
-        minWidth:`${showSide}`,
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
         justifyContent: "flex-start",
         position: "fixed",
         transition: "450ms",
         zIndex: "10",
-        alignItems: "center"
     };
     
     const dataMenu = [
-        {icon:<VscDashboard      className="fs-3 text-white"/>,to: "",         text:"Dashboard"},
+        {icon:<VscDashboard      className="fs-3 text-white pl-2"/>,to: "",    text:"Dashboard"},
         {icon:<MdOutlineCategory className="fs-3 text-white"/>,to: "category", text:"Category"},
         {icon:<GoListUnordered   className="fs-3 text-white"/>,to: "orders",   text:"Orders"},
         {icon:<BsPeople          className="fs-3 text-white"/>,to: "customers",text:"Customers"},
         {icon:<BiLogOut          className="fs-3 text-white"/>,to: "logout",   text:"Logout"}
     ]
-    const linkStyle = ({isActive}) => {
-        // isActive ? setWidthClass("8vw") : setWidthClass("20vw") ;
-        return {
-            color: 'white',
-            borderRight: isActive ? "4px solid blue" : "",
+    const linkStyle = {
+            color: 'blue',
             textDecoration: "none",
             transition: "150ms",
-        }
+        
     }
     return ( 
       <> 
         <div className="" style={sidebarNav}>
-           <div className="menu-icon">
-                <i className={changeClass} onClick={ShowSide}></i>
+           <div className="menu-icon rounded mb-5" style={{width:"6vw",height:"8vh",background: "#B0A8B9"}}>
+                <i className={changeClass} onClick={ShowSide} ></i>
            </div>
 
-            <div>
+            <div className='rounded-end pt-5' style={{background: "#B0A8B9"}}>
                 <ul className="list-unstyled" >
                     {dataMenu.map((e,index) => (
                         <li 
                             key={index} 
-                            className="mt-5"
-                            style={{width: `${widthClass}`}}
+                            className="mb-5"
+                            style={{borderRight: "4px solid blue",
+                            height: '6vh', width:"100%"}}
                         >
                             <NavLink 
                                 to={e.to} 
-                                className={({isActive}) => {
-                                    const test = isActive ? "pt-2 pb-2" : "pt-2 pb-2";
-                                    return test
-                                }} 
+                                className="pt-2 pb-2" 
                                 style={linkStyle}
                             >
                                 {e.icon} 
-                                {!sidebar && <span className="fs-5">{e.text}</span>}
+                                {!sidebar && <span className="fs-5 text-white">{e.text}</span>}
                             </NavLink>
                         </li>   
                     ))}

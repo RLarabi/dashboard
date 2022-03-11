@@ -1,5 +1,5 @@
 import './App.css';
-import SideBar from './components/SideBar/SideBar';
+// import SideBar from './components/SideBar/SideBar';
 import Categories from './components/Pages/Categories'
 import Products from './components/Pages/Products';
 import Dashboard from './components/Pages/Dashboard';
@@ -14,7 +14,7 @@ function App() {
     <div className="App"> 
 
         <div className=''>
-          <SideBar/>
+          
           <Routes> 
             <Route path='category' element={<Categories/>}/>
             <Route path='products' element={<Products/>}/>
